@@ -1,0 +1,23 @@
+process {
+    executor = "k8s"
+    withName:run_fastqc {
+        container = "quay.io/biocontainers/fastqc:0.11.7--5"
+    }
+    withName:run_multiqc {
+        container = "quay.io/biocontainers/multiqc:1.6--py36h24bf2e0_0"
+    }
+}
+
+aws {
+  client.endpoint = 'https://s3.computational.bio.uni-giessen.de'
+  accessKey = 'foo'
+  secretKey = 'baa'
+}
+
+k8s {
+  namespace = 'default'
+  serviceAccount = 'nextflowsvcacc'
+  storageClaimName = 'hello-world-test'
+  storageMountPath = '/workspace'
+}
+
